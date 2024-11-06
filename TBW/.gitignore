@@ -1,0 +1,32 @@
+# Файлы и папки, которые нужно игнорировать в проекте Unreal Engine
+
+# Binaries и промежуточные файлы
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# Конфигурации системы и лог-файлы
+*.log
+*.vs/
+.vscode/
+.DS_Store
+
+# Плагины и временные файлы
+*.sln
+*.VC.db
+*.VC.opendb
+
+# Папки для отладочных данных и кэшей
+Backup/
+LocalBuilds/
+Build/
+
+# Исключить данные, специфичные для работы Unreal Editor
+*.swp
+*.swo
+*.tmp
+
+# Дополнительные файлы, специфичные для Mac или Windows
+Thumbs.db
+desktop.ini
