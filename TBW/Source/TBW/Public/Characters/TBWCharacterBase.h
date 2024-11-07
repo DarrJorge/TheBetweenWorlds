@@ -10,6 +10,7 @@
 
 class UTBWAbilitySystemComponent;
 class UTBWAttributeSet;
+class UDataAsset_StartUpDataBase;
 
 UCLASS()
 class TBW_API ATBWCharacterBase : public ACharacter, public IAbilitySystemInterface, public IPawnCombatInterface
@@ -25,6 +26,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AbilitySystem")
 	UTBWAttributeSet* TBWAttributeSet;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="CharacterData")
+	TSoftObjectPtr<UDataAsset_StartUpDataBase> CharacterStartUpData;
 	
 	virtual void PossessedBy(AController* NewController) override;
 
@@ -32,5 +36,8 @@ public:
 
 	//~ Begin IAbilitySystemInterface Interface
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+	//~ Begin IPawnCombatInterface Interface
+	virtual UCombatComponentBase* GetPawnCombatComponent() const override;
 	
 };

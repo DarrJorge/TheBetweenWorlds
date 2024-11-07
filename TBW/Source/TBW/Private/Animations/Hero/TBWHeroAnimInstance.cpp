@@ -2,7 +2,7 @@
 
 
 #include "Animations/Hero/TBWHeroAnimInstance.h"
-//#include "Characters/"
+#include "Characters/TBWHeroCharacter.h"
 
 void UTBWHeroAnimInstance::NativeInitializeAnimation()
 {
@@ -10,7 +10,7 @@ void UTBWHeroAnimInstance::NativeInitializeAnimation()
 
 	if (OwningCharacter)
 	{
-		//OwningHeroCharacter = Cast<ATBWHeroCharacter>(OwningCharacter);
+		OwningHeroCharacter = Cast<ATBWHeroCharacter>(OwningCharacter);
 	}
 }
 

@@ -6,7 +6,7 @@
 #include "Animations/TBWCharacterAnimInstance.h"
 #include "TBWHeroAnimInstance.generated.h"
 
-//class ATBWHeroCharacter;
+class ATBWHeroCharacter;
 
 UCLASS()
 class TBW_API UTBWHeroAnimInstance : public UTBWCharacterAnimInstance
@@ -19,8 +19,8 @@ public:
 
 protected:
 
-	//UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|References")
-	//ATBWHeroCharacter* OwningHeroCharacter;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|References")
+	ATBWHeroCharacter* OwningHeroCharacter;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|LocomotionData")
 	bool bShouldEnterRelaxState;

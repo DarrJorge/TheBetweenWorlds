@@ -29,3 +29,7 @@ UAbilitySystemComponent* ATBWCharacterBase::GetAbilitySystemComponent() const
 	return TBWAbilitySystemComponent;
 }
 
+UCombatComponentBase* ATBWCharacterBase::GetPawnCombatComponent() const
+{
+	return nullptr;
+}
