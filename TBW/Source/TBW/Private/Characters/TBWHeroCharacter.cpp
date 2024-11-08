@@ -55,6 +55,9 @@ void ATBWHeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 			TBWInputComponent->BindNativeInputAction(InputConfigAsset, TBWGameplayTags::InputTag_Look,
 				ETriggerEvent::Triggered, this, &ThisClass::OnInputLook);
 
+			TBWInputComponent->BindNativeInputAction(InputConfigAsset, TBWGameplayTags::InputTag_Jump,
+				ETriggerEvent::Started, this, &ThisClass::Jump);
+
 			TBWInputComponent->BindAbilityInputAction(InputConfigAsset, this,
 				&ATBWHeroCharacter::OnInputAbilityPressed, &ATBWHeroCharacter::OnInputAbilityReleased);
 		}

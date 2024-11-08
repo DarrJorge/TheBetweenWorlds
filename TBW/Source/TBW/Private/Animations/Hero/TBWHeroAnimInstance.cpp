@@ -3,6 +3,7 @@
 
 #include "Animations/Hero/TBWHeroAnimInstance.h"
 #include "Characters/TBWHeroCharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 void UTBWHeroAnimInstance::NativeInitializeAnimation()
 {
@@ -27,5 +28,14 @@ void UTBWHeroAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 	{
 		IdleElpasedTime += DeltaSeconds;
 		bShouldEnterRelaxState = IdleElpasedTime >= EnterRelaxStateThreshold;
+	}
+
+	if (OwningHeroCharacter && OwningCharacter->GetCharacterMovement())
+	{
+		bJumping = OwningCharacter->GetCharacterMovement()->IsFalling();
+	}
+	else
+	{
+		bJumping = false;
 	}
 }
