@@ -15,7 +15,7 @@ class TBW_API UTBWHeroLinkedAnimLayer : public UTBWAnimInstanceBase
 
 public:
 
-	UFUNCTION(BlueprintPure, meta=(NotBlueprintThreadSafe))
+	UFUNCTION(BlueprintPure, meta=(BlueprintThreadSafe))
 	UTBWHeroAnimInstance* GetHeroAnimInstance() const;
 	
 };
