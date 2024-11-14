@@ -44,3 +44,36 @@ struct FWeaponData
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSoftObjectPtr<UTexture2D> WeaponIconTexture;
 };
+
+class UDataAsset_ItemInfo;
+
+USTRUCT(BlueprintType)
+struct FItemData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	int32 ItemID;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	int32 ItemQuantity;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TSoftObjectPtr<UDataAsset_ItemInfo> ItemAsset;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	int32 CurrentHP;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	int32 MaxHP;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	int32 CurrentAmmo;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	int32 MaxAmmo;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	int32 StackSize;
+
+};

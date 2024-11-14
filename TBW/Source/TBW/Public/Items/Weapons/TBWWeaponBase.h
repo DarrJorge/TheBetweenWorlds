@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "Items/TBW_ItemBase.h"
 #include "TBWWeaponBase.generated.h"
 
 class UBoxComponent;
 
 UCLASS()
-class TBW_API ATBWWeaponBase : public AActor
+class TBW_API ATBWWeaponBase : public ATBW_ItemBase
 {
 	GENERATED_BODY()
 	

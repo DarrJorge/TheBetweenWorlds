@@ -11,6 +11,7 @@
 #include "DataAssets/Input/DataAsset_InputConfig.h"
 #include "Components/Combat/HeroCombatComponent.h"
 #include "Components/Input/TBWEnhancedInputComponent.h"
+#include "Components/Inventory/PlayerInventoryContainer.h"
 #include "TBWGameplayTags.h"
 
 ATBWHeroCharacter::ATBWHeroCharacter()
@@ -33,6 +34,7 @@ ATBWHeroCharacter::ATBWHeroCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
 
 	HeroCombatComponent = CreateDefaultSubobject<UHeroCombatComponent>("HeroCombatComponent");
+	PlayerInventoryContainer = CreateDefaultSubobject<UPlayerInventoryContainer>("PlayerInventory");
 }
 
 void ATBWHeroCharacter::BeginPlay()

@@ -12,6 +12,7 @@ class UDataAsset_InputConfig;
 class UCameraComponent;
 class USpringArmComponent;
 class UHeroCombatComponent;
+class UPlayerInventoryContainer;
 struct FInputActionValue;
 
 
@@ -32,6 +33,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	UHeroCombatComponent* HeroCombatComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
+	UPlayerInventoryContainer* PlayerInventoryContainer;
 	
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
