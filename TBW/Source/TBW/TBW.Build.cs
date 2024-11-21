@@ -19,6 +19,8 @@ public class TBW : ModuleRules
 			"GameplayAbilities",
 			"EnhancedInput",
 			"AnimGraphRuntime",
+			"UMG",
+			"CommonUI"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

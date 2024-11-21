@@ -11,5 +11,8 @@ UCLASS()
 class TBW_API UPlayerInventoryContainer : public UTBW_ItemsContainerBase
 {
 	GENERATED_BODY()
+
+public:
+	
 	
 };

@@ -7,8 +7,10 @@
 
 void UCombatComponentBase::RegisterWeapon(FGameplayTag InWeaponTag, ATBWWeaponBase* InWeapon, bool bRegisterAsEquippedWeapon)
 {
-	checkf(!CarriedWeaponMap.Contains(InWeaponTag), TEXT("A named %s has already been added as carried weapon"), *InWeaponTag.ToString());
+	//checkf(!CarriedWeaponMap.Contains(InWeaponTag), TEXT("A named %s has already been added as carried weapon"), *InWeaponTag.ToString());
 	check(InWeapon);
+
+	if (CarriedWeaponMap.Contains(InWeaponTag)) return;
 
 	CarriedWeaponMap.Emplace(InWeaponTag, InWeapon);
 

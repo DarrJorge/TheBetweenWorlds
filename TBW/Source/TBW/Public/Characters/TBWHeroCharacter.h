@@ -15,6 +15,8 @@ class UHeroCombatComponent;
 class UPlayerInventoryContainer;
 struct FInputActionValue;
 
+DECLARE_MULTICAST_DELEGATE(FOnInventoryEventDelegate);
+
 
 UCLASS()
 class TBW_API ATBWHeroCharacter : public ATBWCharacterBase
@@ -23,6 +25,8 @@ class TBW_API ATBWHeroCharacter : public ATBWCharacterBase
 
 public:
 	ATBWHeroCharacter();
+
+	FOnInventoryEventDelegate InventoryAction;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
@@ -51,6 +55,7 @@ private:
 
 	void OnInputAbilityPressed(FGameplayTag InputTag);
 	void OnInputAbilityReleased(FGameplayTag InputTag);
+	void OnInputInventoryHandler();
 
 public:
 

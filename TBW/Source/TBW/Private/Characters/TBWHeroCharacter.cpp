@@ -13,6 +13,7 @@
 #include "Components/Input/TBWEnhancedInputComponent.h"
 #include "Components/Inventory/PlayerInventoryContainer.h"
 #include "TBWGameplayTags.h"
+#include "GameModes/TBWGameModeBase.h"
 
 ATBWHeroCharacter::ATBWHeroCharacter()
 {
@@ -59,6 +60,9 @@ void ATBWHeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 			TBWInputComponent->BindNativeInputAction(InputConfigAsset, TBWGameplayTags::InputTag_Jump,
 				ETriggerEvent::Started, this, &ThisClass::Jump);
+
+			TBWInputComponent->BindNativeInputAction(InputConfigAsset, TBWGameplayTags::InputTag_Inventory,
+				ETriggerEvent::Started, this, &ThisClass::OnInputInventoryHandler);
 
 			TBWInputComponent->BindAbilityInputAction(InputConfigAsset, this,
 				&ATBWHeroCharacter::OnInputAbilityPressed, &ATBWHeroCharacter::OnInputAbilityReleased);
@@ -113,6 +117,14 @@ void ATBWHeroCharacter::OnInputAbilityPressed(FGameplayTag InputTag)
 void ATBWHeroCharacter::OnInputAbilityReleased(FGameplayTag InputTag)
 {
 	TBWAbilitySystemComponent->OnAbilityInputReleased(InputTag);
+}
+
+void ATBWHeroCharacter::OnInputInventoryHandler()
+{
+	if (!GetWorld()) return;
+	auto* GameMode = Cast<ATBWGameModeBase>(GetWorld()->GetAuthGameMode());
+	if (!GameMode) return;
+	GameMode->SetGameState(ETBWGameState::ShowInventory);
 }
 
 UCombatComponentBase* ATBWHeroCharacter::GetPawnCombatComponent() const

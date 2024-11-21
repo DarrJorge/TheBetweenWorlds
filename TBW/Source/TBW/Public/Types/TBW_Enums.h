@@ -45,3 +45,10 @@ enum class EContainerType: uint8
 	Storage,
 	Armor
 };
+
+UENUM()
+enum class ETBWGameState: uint8
+{
+	GameProgress = 0,
+	ShowInventory
+};

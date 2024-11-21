@@ -9,6 +9,7 @@ namespace TBWGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Equip_Weapon, "InputTag.Equip.Weapon");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Unequip_Weapon, "InputTag.Unequip.Weapon");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Jump, "InputTag.Jump");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Inventory, "InputTag.Inventory");
 	
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_KeyMustBeHeld, "InputTag.KeyMustBeHeld");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_KeyMustBeHeld_Block, "InputTag.KeyMustBeHeld.Block");
