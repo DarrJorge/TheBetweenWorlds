@@ -131,3 +131,48 @@ UCombatComponentBase* ATBWHeroCharacter::GetPawnCombatComponent() const
 {
 	return HeroCombatComponent;
 }
+
+void ATBWHeroCharacter::ResetMovementInput()
+{
+	AddMovementInput(FVector::ZeroVector, 0.0f);
+}
+
+void ATBWHeroCharacter::OnItemMoved(EContainerType ContainerTypeFrom, EContainerType ContainerTypeTarget, int32 IndexFrom,
+	int32 IndexTarget)
+{
+	if (!HasAuthority()) return;
+
+	UTBW_ItemsContainerBase* TargetContainer = nullptr;
+	UTBW_ItemsContainerBase* FromContainer = nullptr;
+
+	switch (ContainerTypeTarget)
+	{
+		case EContainerType::Inventory:
+			TargetContainer = PlayerInventoryContainer;
+			break;
+		case EContainerType::HotBar:
+			break;
+		case EContainerType::Storage:
+			break;
+		case EContainerType::Armor:
+			break;
+	}
+
+	switch (ContainerTypeFrom)
+	{
+		case EContainerType::Inventory:
+			FromContainer = PlayerInventoryContainer;
+			break;
+		case EContainerType::HotBar:
+			break;
+		case EContainerType::Storage:
+			break;
+		case EContainerType::Armor:
+			break;
+	}
+	
+	if (TargetContainer)
+	{
+		TargetContainer->OnSlotDrop(FromContainer, IndexFrom, IndexTarget);
+	}
+}

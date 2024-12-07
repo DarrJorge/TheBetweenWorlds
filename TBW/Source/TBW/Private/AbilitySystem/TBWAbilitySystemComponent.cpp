@@ -4,6 +4,7 @@
 #include "AbilitySystem/TBWAbilitySystemComponent.h"
 #include "TBWGameplayTags.h"
 #include "AbilitySystem/Abilities/TBWGameplayAbility.h"
+#include "Utils/TBW_Debug.h"
 
 void UTBWAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InputTag)
 {
@@ -60,7 +61,6 @@ void UTBWAbilitySystemComponent::GrantCharacterWeaponAbilities(const TArray<FHer
 void UTBWAbilitySystemComponent::RemoveGrantedCharacterWeaponAbilities(TArray<FGameplayAbilitySpecHandle>& InGrantedAbilitySpecHandles)
 {
 	if (InGrantedAbilitySpecHandles.IsEmpty()) return;
-
 	for (const auto& SpecHandle : InGrantedAbilitySpecHandles)
 	{
 		if (!SpecHandle.IsValid()) continue;

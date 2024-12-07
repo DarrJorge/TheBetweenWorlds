@@ -8,6 +8,7 @@
 #include "Types/TBW_Enums.h"
 #include "TBW_ItemsContainerBase.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAddedItemToSlot, int32, Index, FItemData, ItemInfo);
 
 UCLASS()
 class TBW_API UTBW_ItemsContainerBase : public UPawnExtensionComponentBase
@@ -16,6 +17,9 @@ class TBW_API UTBW_ItemsContainerBase : public UPawnExtensionComponentBase
 
 public:
 	UTBW_ItemsContainerBase();
+
+	UPROPERTY(BlueprintAssignable, Category="TBW|Inventory|Events")
+	FOnAddedItemToSlot OnAddedItemToSlot;
 
 protected:
 	
@@ -35,6 +39,19 @@ public:
 	UFUNCTION(BlueprintCallable, Server, Reliable, Category="TBW|ItemsContainer")
 	void AddItemTo(FItemData NewItem);
 
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+	void OnSlotDrop(UTBW_ItemsContainerBase* ContainerFrom, int32 IndexFrom, int32 IndexTo);
+
+	void TransferItem(UTBW_ItemsContainerBase* NewContainer, int32 IndexFrom, int32 IndexTo);
+
+protected:
+
+	virtual void HandleSlotDrop(UTBW_ItemsContainerBase* ContainerFrom, int32 IndexFrom, int32 IndexTo);
+
 private:
-	bool TryFindEmptySlot(int& EmptySlotIndex);
+	bool TryFindEmptySlot(int32& EmptySlotIndex) const;
+	bool SlotIsEmpty(int32 SlotIndex);
+	bool TryGetSlotDataByIndex(int32 SlotIndex, FItemData& OutSlotData);
+	void InsertItemToSlot(int32 SlotIndex, const FItemData& NewItem);
+	void ResetSlotDataByIndex(int32 SlotIndex);
 };

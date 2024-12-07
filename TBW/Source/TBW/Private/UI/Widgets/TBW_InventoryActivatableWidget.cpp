@@ -10,9 +10,12 @@
 void UTBW_InventoryActivatableWidget::NativeOnDeactivated()
 {
 	Super::NativeOnDeactivated();
-	
-	if (auto* GameMode = UTBWFunctionLibrary::GetTBWGameModeBase(GetOwningPlayer()))
+
+	if (GetWorld())
 	{
-		GameMode->SetGameState(ETBWGameState::GameProgress);
+		if (auto* GameMode = Cast<ATBWGameModeBase>(GetWorld()->GetAuthGameMode()))
+		{
+			GameMode->SetGameState(ETBWGameState::GameProgress);
+		}
 	}
 }

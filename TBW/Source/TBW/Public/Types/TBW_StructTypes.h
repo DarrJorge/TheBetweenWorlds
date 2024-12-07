@@ -53,27 +53,27 @@ struct FItemData
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 ItemID;
+	int32 ItemID{0};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 ItemQuantity;
+	int32 ItemQuantity{0};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSoftObjectPtr<UDataAsset_ItemInfo> ItemAsset;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 CurrentHP;
+	int32 CurrentHP{0};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 MaxHP;
+	int32 MaxHP{0};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 CurrentAmmo;
+	int32 CurrentAmmo{0};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 MaxAmmo;
+	int32 MaxAmmo{0};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 StackSize;
+	int32 StackSize{0};
 
 };

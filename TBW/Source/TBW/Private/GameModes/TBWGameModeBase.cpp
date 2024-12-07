@@ -5,6 +5,7 @@
 
 void ATBWGameModeBase::SetGameState(ETBWGameState InGameState)
 {
+	if (GameState == InGameState) return;
 	GameState = InGameState;
 	GameStateChanged.Broadcast(InGameState);
 }

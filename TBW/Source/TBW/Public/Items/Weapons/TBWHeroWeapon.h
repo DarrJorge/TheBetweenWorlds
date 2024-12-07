@@ -14,8 +14,16 @@ class TBW_API ATBWHeroWeapon : public ATBWWeaponBase
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintCallable)
+	void AssignGrantedAbilitySpecHandles(const TArray<FGameplayAbilitySpecHandle>& InSpecHandles);
+
+	UFUNCTION(BlueprintPure)
+	TArray<FGameplayAbilitySpecHandle>& GetGrantedAbilitySpecHandles();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="TBW|WeaponData")
 	FWeaponData WeaponData;
+
+private:
+	TArray<FGameplayAbilitySpecHandle> GrantedAbilitySpecHandles;
 	
 };

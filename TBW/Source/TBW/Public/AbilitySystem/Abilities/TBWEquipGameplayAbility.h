@@ -19,8 +19,5 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void HandleUnequipWeapon(const FGameplayTag& WeaponTag);
-
-private:
-	TArray<FGameplayAbilitySpecHandle> GrantedAbilitySpecHandles;
 	
 };

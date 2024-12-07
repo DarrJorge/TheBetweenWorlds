@@ -8,11 +8,10 @@
 #include "Items/Weapons/TBWHeroWeapon.h"
 #include "Controllers/TBWPlayerController.h"
 #include "Animations/Hero/TBWHeroLinkedAnimLayer.h"
-#include "AbilitySystem/TBWAbilitySystemComponent.h"
 
 void UTBWEquipGameplayAbility::HandleEquipWeapon(const FGameplayTag& WeaponTag)
 {
-	const auto* Weapon = GetHeroCombatComponentFromActorInfo()->GetHeroCarriedWeaponByTag(WeaponTag);
+	ATBWHeroWeapon* Weapon = GetHeroCombatComponentFromActorInfo()->GetHeroCarriedWeaponByTag(WeaponTag);
 	check(Weapon);
 	check(Weapon->WeaponData.WeaponAnimLayer);
 	check(Weapon->WeaponData.WeaponMappingContext);
@@ -32,7 +31,9 @@ void UTBWEquipGameplayAbility::HandleEquipWeapon(const FGameplayTag& WeaponTag)
 	// add new abilities to character by weapon
 	if (auto* TbwASC = Cast<UTBWAbilitySystemComponent>(GetAbilitySystemComponentFromActorInfo()))
 	{
+		TArray<FGameplayAbilitySpecHandle> GrantedAbilitySpecHandles;
 		TbwASC->GrantCharacterWeaponAbilities(Weapon->WeaponData.DefaultWeaponAbilities, GetAbilityLevel(), GrantedAbilitySpecHandles);
+		Weapon->AssignGrantedAbilitySpecHandles(GrantedAbilitySpecHandles);
 	}
 
 	GetCombatComponentBaseFromActorInfo()->CurrentEquippedWeaponTag = WeaponTag;
@@ -40,7 +41,7 @@ void UTBWEquipGameplayAbility::HandleEquipWeapon(const FGameplayTag& WeaponTag)
 
 void UTBWEquipGameplayAbility::HandleUnequipWeapon(const FGameplayTag& WeaponTag)
 {
-	const auto* Weapon = GetHeroCombatComponentFromActorInfo()->GetHeroCarriedWeaponByTag(WeaponTag);
+	ATBWHeroWeapon* Weapon = GetHeroCombatComponentFromActorInfo()->GetHeroCarriedWeaponByTag(WeaponTag);
 	check(Weapon);
 	check(Weapon->WeaponData.WeaponAnimLayer);
 	check(Weapon->WeaponData.WeaponMappingContext);
@@ -60,7 +61,7 @@ void UTBWEquipGameplayAbility::HandleUnequipWeapon(const FGameplayTag& WeaponTag
 	// remove weapon abilities from character
 	if (auto* TbwASC = Cast<UTBWAbilitySystemComponent>(GetAbilitySystemComponentFromActorInfo()))
 	{
-		TbwASC->RemoveGrantedCharacterWeaponAbilities(GrantedAbilitySpecHandles);
+		TbwASC->RemoveGrantedCharacterWeaponAbilities(Weapon->GetGrantedAbilitySpecHandles());
 	}
 
 	GetCombatComponentBaseFromActorInfo()->CurrentEquippedWeaponTag = FGameplayTag();

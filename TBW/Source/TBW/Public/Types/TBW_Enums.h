@@ -49,6 +49,6 @@ enum class EContainerType: uint8
 UENUM()
 enum class ETBWGameState: uint8
 {
-	GameProgress = 0,
-	ShowInventory
+	GameProgress = 0 UMETA(DisplayName="GameProgress"),
+	ShowInventory UMETA(DisplayName="ShowInventory")
 };

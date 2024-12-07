@@ -18,5 +18,6 @@ protected:
 
 private:
 	void OnGameStateChanged(ETBWGameState InGameState);
+	void SetPawnInputMode(bool bEnable);
 	
 };

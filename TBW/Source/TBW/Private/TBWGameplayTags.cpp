@@ -16,6 +16,9 @@ namespace TBWGameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Toggleable, "InputTag.Toggleable");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Toggleable_TargetLock, "InputTag.Toggleable.TargetLock");
+	
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Attack_Base, "InputTag.Attack.Base");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Attack_Second, "InputTag.Attack.Second");
 
 	/** Items Tags **/
 	UE_DEFINE_GAMEPLAY_TAG(Item_Weapon_StaffBase, "Item.Weapon.StaffBase");
@@ -29,6 +32,8 @@ namespace TBWGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Jump, "Player.Ability.Jump");
 	
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Attack_Melee_Unarmed, "Player.Ability.Attack.Melee.Unarmed");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Attack_Spell_Base, "Player.Ability.Attack.Spell.Base");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Attack_Spell_Second, "Player.Ability.Attack.Spell.Second");
 	
 	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Falling, "Player.Status.Falling");
 	

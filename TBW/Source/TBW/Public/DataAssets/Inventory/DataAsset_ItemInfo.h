@@ -14,7 +14,7 @@ class TBW_API UDataAsset_ItemInfo : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 
-protected:
+public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="ItemInfo")
 	int32 ItemID;

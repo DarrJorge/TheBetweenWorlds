@@ -19,6 +19,11 @@ namespace TBWGameplayTags
 
 	TBW_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Toggleable);
 	TBW_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Toggleable_TargetLock);
+	
+	TBW_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Attack_Base);
+	TBW_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Attack_Second);
+
+	
 
 	/** Items Tags **/
 	TBW_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Item_Weapon_StaffBase);
@@ -32,6 +37,8 @@ namespace TBWGameplayTags
 	TBW_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Jump);
 	
 	TBW_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Attack_Melee_Unarmed);
+	TBW_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Attack_Spell_Base);
+	TBW_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Attack_Spell_Second);
 	
 	TBW_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Falling);
 }

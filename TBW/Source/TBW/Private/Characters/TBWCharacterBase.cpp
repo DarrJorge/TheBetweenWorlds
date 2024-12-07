@@ -4,6 +4,7 @@
 #include "Characters/TBWCharacterBase.h"
 #include "AbilitySystem/TBWAbilitySystemComponent.h"
 #include "AbilitySystem/TBWAttributeSet.h"
+#include "Engine/AssetManager.h"
 
 
 ATBWCharacterBase::ATBWCharacterBase()

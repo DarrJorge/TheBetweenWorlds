@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "Characters/TBWCharacterBase.h"
+#include "Types/TBW_Enums.h"
 #include "TBWHeroCharacter.generated.h"
 
 
@@ -50,6 +51,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="TBW|Input", meta=(AllowPrivateAccess="true"))
 	UDataAsset_InputConfig* InputConfigAsset;
 
+	bool bShowInventory = false;
+	
 	void OnInputMove(const FInputActionValue& Value);
 	void OnInputLook(const FInputActionValue& Value);
 
@@ -62,4 +65,8 @@ public:
 	//~ Begin IPawnCombatInterface Interface
 	virtual UCombatComponentBase* GetPawnCombatComponent() const override;
 	
+	void ResetMovementInput();
+
+	UFUNCTION(BlueprintCallable)
+	void OnItemMoved(EContainerType ContainerTypeFrom, EContainerType ContainerTypeTarget, int32 IndexFrom, int32 IndexTarget);
 };
