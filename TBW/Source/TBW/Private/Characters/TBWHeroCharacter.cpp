@@ -14,6 +14,8 @@
 #include "Components/Inventory/PlayerInventoryContainer.h"
 #include "TBWGameplayTags.h"
 #include "GameModes/TBWGameModeBase.h"
+#include "Kismet/GameplayStatics.h"
+#include "SaveGame/TBW_SaveGame.h"
 
 ATBWHeroCharacter::ATBWHeroCharacter()
 {
@@ -61,9 +63,6 @@ void ATBWHeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 			TBWInputComponent->BindNativeInputAction(InputConfigAsset, TBWGameplayTags::InputTag_Jump,
 				ETriggerEvent::Started, this, &ThisClass::Jump);
 
-			TBWInputComponent->BindNativeInputAction(InputConfigAsset, TBWGameplayTags::InputTag_Inventory,
-				ETriggerEvent::Started, this, &ThisClass::OnInputInventoryHandler);
-
 			TBWInputComponent->BindAbilityInputAction(InputConfigAsset, this,
 				&ATBWHeroCharacter::OnInputAbilityPressed, &ATBWHeroCharacter::OnInputAbilityReleased);
 		}
@@ -75,11 +74,24 @@ void ATBWHeroCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	if (!CharacterStartUpData.IsNull())
+	if (HasAuthority())
 	{
-		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
+		// load abilities from save game slot
+		TArray<TSubclassOf<UGameplayAbility>> GrantedAbilities;
+		if (TryLoadGrantedAbilities(GrantedAbilities) && TBWAbilitySystemComponent)
 		{
-			LoadedData->GiveToAbilitySystemComponent(TBWAbilitySystemComponent);
+			TBWAbilitySystemComponent->GrantAbilities(GrantedAbilities);
+		}
+		else
+		{
+			// init start abilities
+			if (!CharacterStartUpData.IsNull())
+			{
+				if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
+				{
+					LoadedData->InitStartupAbilities(TBWAbilitySystemComponent);
+				}
+			}
 		}
 	}
 }
@@ -119,12 +131,38 @@ void ATBWHeroCharacter::OnInputAbilityReleased(FGameplayTag InputTag)
 	TBWAbilitySystemComponent->OnAbilityInputReleased(InputTag);
 }
 
-void ATBWHeroCharacter::OnInputInventoryHandler()
+bool ATBWHeroCharacter::TryLoadGrantedAbilities(TArray<TSubclassOf<UGameplayAbility>>& OutGrantedAbilities)
 {
-	if (!GetWorld()) return;
-	auto* GameMode = Cast<ATBWGameModeBase>(GetWorld()->GetAuthGameMode());
-	if (!GameMode) return;
-	GameMode->SetGameState(ETBWGameState::ShowInventory);
+	auto* DefaultSaveGame = UGameplayStatics::LoadGameFromSlot(TEXT("PlayerSaveSlot"), 0);
+	if (!DefaultSaveGame) return false;
+	
+	const auto* SaveGameInstance = Cast<UTBW_SaveGame>(DefaultSaveGame);
+	if (!SaveGameInstance || !TBWAbilitySystemComponent) return false;
+
+	if (SaveGameInstance->GrantedAbilities.Num() > 0)
+	{
+		OutGrantedAbilities = SaveGameInstance->GrantedAbilities;
+		return true;
+	}
+	return false;
+}
+
+void ATBWHeroCharacter::SaveGrantedAbility(TSubclassOf<UGameplayAbility> InAbility)
+{
+	UTBW_SaveGame* SaveGameInstance = Cast<UTBW_SaveGame>(UGameplayStatics::LoadGameFromSlot(TEXT("PlayerSaveSlot"), 0));
+	if (!SaveGameInstance)
+	{
+		SaveGameInstance = Cast<UTBW_SaveGame>(UGameplayStatics::CreateSaveGameObject(UTBW_SaveGame::StaticClass()));
+	}
+
+	if (SaveGameInstance)
+	{
+		if (!SaveGameInstance->GrantedAbilities.Contains(InAbility))
+		{
+			SaveGameInstance->GrantedAbilities.Add(InAbility);
+			UGameplayStatics::SaveGameToSlot(SaveGameInstance, TEXT("PlayerSaveSlot"), 0);
+		}
+	}
 }
 
 UCombatComponentBase* ATBWHeroCharacter::GetPawnCombatComponent() const

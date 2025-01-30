@@ -3,52 +3,79 @@
 
 #include "Controllers/TBWPlayerController.h"
 #include "Characters/TBWHeroCharacter.h"
-#include "GameFramework/Character.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/PawnMovementComponent.h"
-#include "GameModes/TBWGameModeBase.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogTBWPlayerController, All, All);
+
+ATBWPlayerController::ATBWPlayerController() : Super()
+{
+	PrimaryActorTick.bTickEvenWhenPaused = true;
+}
 
 void ATBWPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (GetWorld())
+	if (auto* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
-		if (const auto GameMode = Cast<ATBWGameModeBase>(GetWorld()->GetAuthGameMode()))
-		{
-			GameMode->GameStateChanged.AddUObject(this, &ThisClass::OnGameStateChanged);
-		}
+		Subsystem->AddMappingContext(UIMappingContext, 1);
+	}
+
+	if (PauseAction)
+	{
+		PauseAction->bConsumeInput = false;
+		PauseAction->bTriggerWhenPaused = true;
+	}
+
+	if (InventoryOpenAction)
+	{
+		InventoryOpenAction->bConsumeInput = false;
+		InventoryOpenAction->bTriggerWhenPaused = true;
 	}
 }
 
-void ATBWPlayerController::OnGameStateChanged(ETBWGameState InGameState)
+void ATBWPlayerController::SetupInputComponent()
 {
-	if (InGameState == ETBWGameState::GameProgress)
+	Super::SetupInputComponent();
+
+	check(InputComponent);
+
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
 	{
-		UE_LOG(LogTBWPlayerController, Warning, TEXT("Choose Game Progress state"));
-		SetPawnInputMode(true);
-		SetInputMode(FInputModeGameOnly());
-		bShowMouseCursor = false;
+		EnhancedInputComponent->BindAction(PauseAction, ETriggerEvent::Started, this, &ThisClass::ToggleGamePause);
+		EnhancedInputComponent->BindAction(InventoryOpenAction, ETriggerEvent::Started, this, &ThisClass::OnOpenInventory);
+	}
+}
+
+void ATBWPlayerController::ToggleInputMode(ETBWGameState InGameState, bool bSetPause)
+{
+	bInPause = bSetPause;
+	SetPause(bInPause);
+	
+	GameState = InGameState;
+	bShowMouseCursor = bInPause;
+
+	if (bInPause)
+	{
+		SetInputMode(FInputModeGameAndUI().SetHideCursorDuringCapture(false));
 	}
 	else
 	{
-		UE_LOG(LogTBWPlayerController, Warning, TEXT("Choose not Game Progress state"));
-		SetPawnInputMode(false);
-		SetInputMode(FInputModeUIOnly());
-		bShowMouseCursor = true;
+		SetInputMode(FInputModeGameOnly());
 	}
+
+	OnGameStateChanged.Broadcast(GameState);
 }
 
-void ATBWPlayerController::SetPawnInputMode(bool bEnable)
+void ATBWPlayerController::ToggleGamePause()
 {
-	if (!GetPawn() || !GetCharacter()) return;
+	UE_LOG(LogTBWPlayerController, Warning, TEXT("Toggle gamePause! bInPause: %i state: %i"), bInPause, GameState);
+	ToggleInputMode(ETBWGameState::PauseMenu, !(bInPause && GameState == ETBWGameState::PauseMenu));
+}
 
-	ATBWHeroCharacter* HeroCharacter = Cast<ATBWHeroCharacter>(GetCharacter());
-	if (!HeroCharacter) return;
-	HeroCharacter->GetCharacterMovement()->StopMovementImmediately();
-	HeroCharacter->GetCharacterMovement()->Velocity = FVector::ZeroVector;
-	HeroCharacter->ResetMovementInput();
-	bEnable ? GetPawn()->EnableInput(this) : GetPawn()->DisableInput(this);
+void ATBWPlayerController::OnOpenInventory()
+{
+	UE_LOG(LogTBWPlayerController, Warning, TEXT("Toggle inventory! bInPause: %i state: %i"), bInPause, GameState);
+	ToggleInputMode(ETBWGameState::ShowInventory, !(bInPause && GameState == ETBWGameState::ShowInventory));
 }

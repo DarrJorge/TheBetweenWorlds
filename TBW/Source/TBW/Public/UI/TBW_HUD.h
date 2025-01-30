@@ -24,6 +24,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<UTBW_MainLayoutWidget> MainLayoutHUD;
 
-	void OnGameStateChanged(ETBWGameState InGameState) const;
+	UFUNCTION()
+	void OnGameStateChanged(ETBWGameState InGameState);
 	
 };

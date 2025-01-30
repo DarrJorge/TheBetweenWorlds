@@ -32,6 +32,8 @@ protected:
 	
 	virtual void PossessedBy(AController* NewController) override;
 
+	virtual void OnRep_PlayerState() override;
+
 public:
 
 	//~ Begin IAbilitySystemInterface Interface
@@ -39,5 +41,8 @@ public:
 
 	//~ Begin IPawnCombatInterface Interface
 	virtual UCombatComponentBase* GetPawnCombatComponent() const override;
+
+private:
+	void InitAbilityActorInfo();
 	
 };

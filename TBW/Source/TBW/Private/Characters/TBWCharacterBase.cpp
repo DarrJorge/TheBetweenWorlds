@@ -19,10 +19,14 @@ void ATBWCharacterBase::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	if (TBWAbilitySystemComponent)
-	{
-		TBWAbilitySystemComponent->InitAbilityActorInfo(this, this);
-	}
+	InitAbilityActorInfo();
+}
+
+void ATBWCharacterBase::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	InitAbilityActorInfo();
 }
 
 UAbilitySystemComponent* ATBWCharacterBase::GetAbilitySystemComponent() const
@@ -33,4 +37,12 @@ UAbilitySystemComponent* ATBWCharacterBase::GetAbilitySystemComponent() const
 UCombatComponentBase* ATBWCharacterBase::GetPawnCombatComponent() const
 {
 	return nullptr;
+}
+
+void ATBWCharacterBase::InitAbilityActorInfo()
+{
+	if (TBWAbilitySystemComponent)
+	{
+		TBWAbilitySystemComponent->InitAbilityActorInfo(this, this);
+	}
 }

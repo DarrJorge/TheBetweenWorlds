@@ -4,7 +4,7 @@
 #include "AbilitySystem/TBWAbilitySystemComponent.h"
 #include "TBWGameplayTags.h"
 #include "AbilitySystem/Abilities/TBWGameplayAbility.h"
-#include "Utils/TBW_Debug.h"
+
 
 void UTBWAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InputTag)
 {
@@ -40,8 +40,44 @@ void UTBWAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& Inpu
 	}
 }
 
+void UTBWAbilitySystemComponent::GrantAbilities(const TArray<TSubclassOf<UGameplayAbility>> InGrantAbilities,
+	int32 ApplyLevel)
+{
+	if (!InGrantAbilities.IsEmpty()) return;
+
+	for (const TSubclassOf<UGameplayAbility>& AbilityClass : InGrantAbilities)
+	{
+		FGameplayAbilitySpec AbilitySpec(AbilityClass);
+		AbilitySpec.SourceObject = GetAvatarActor();
+		AbilitySpec.Level = ApplyLevel;
+		GiveAbility(AbilitySpec);
+	}
+}
+
+void UTBWAbilitySystemComponent::GrantGameplayEffects(const TArray<TSubclassOf<UGameplayEffect>> InGrantEffects,
+	int32 ApplyLevel)
+{
+	if (!InGrantEffects.IsEmpty()) return;
+
+	for (const TSubclassOf<UGameplayEffect>& EffectClass : InGrantEffects)
+	{
+		const auto* GameplayEffectCDO = EffectClass->GetDefaultObject<UGameplayEffect>();
+		ApplyGameplayEffectToSelf(GameplayEffectCDO, ApplyLevel, MakeEffectContext());
+	}
+}
+
+void UTBWAbilitySystemComponent::GrantAbilityWithTag(TSubclassOf<UGameplayAbility> InAbility, const FGameplayTag& InTag,
+	int32 ApplyLevel)
+{
+	FGameplayAbilitySpec AbilitySpec(InAbility);
+	AbilitySpec.SourceObject = GetAvatarActor();
+	AbilitySpec.Level = ApplyLevel;
+	AbilitySpec.DynamicAbilityTags.AddTag(InTag);
+	GiveAbility(AbilitySpec);
+}
+
 void UTBWAbilitySystemComponent::GrantCharacterWeaponAbilities(const TArray<FHeroAbilitySet>& DefaultWeaponAbilities,
-	int32 InLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles)
+                                                               int32 InLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles)
 {
 	if (DefaultWeaponAbilities.IsEmpty()) return;
 

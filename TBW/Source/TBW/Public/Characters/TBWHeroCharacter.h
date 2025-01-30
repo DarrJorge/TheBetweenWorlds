@@ -9,6 +9,7 @@
 #include "TBWHeroCharacter.generated.h"
 
 
+class UGameplayAbility;
 class UDataAsset_InputConfig;
 class UCameraComponent;
 class USpringArmComponent;
@@ -58,7 +59,9 @@ private:
 
 	void OnInputAbilityPressed(FGameplayTag InputTag);
 	void OnInputAbilityReleased(FGameplayTag InputTag);
-	void OnInputInventoryHandler();
+
+	bool TryLoadGrantedAbilities(TArray<TSubclassOf<UGameplayAbility>>& OutGrantedAbilities);
+	void SaveGrantedAbility(TSubclassOf<UGameplayAbility> InAbility);
 
 public:
 

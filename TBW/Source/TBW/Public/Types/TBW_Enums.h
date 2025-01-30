@@ -50,5 +50,6 @@ UENUM()
 enum class ETBWGameState: uint8
 {
 	GameProgress = 0 UMETA(DisplayName="GameProgress"),
-	ShowInventory UMETA(DisplayName="ShowInventory")
+	ShowInventory UMETA(DisplayName="ShowInventory"),
+	PauseMenu UMETA(DisplayName="PauseMenu")
 };

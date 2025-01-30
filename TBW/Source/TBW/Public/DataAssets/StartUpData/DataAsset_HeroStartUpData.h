@@ -14,7 +14,7 @@ class TBW_API UDataAsset_HeroStartUpData : public UDataAsset_StartUpDataBase
 	GENERATED_BODY()
 
 public:
-	virtual void GiveToAbilitySystemComponent(UTBWAbilitySystemComponent* InASC, int32 ApplyLevel) override;
+	virtual void InitStartupAbilities(UTBWAbilitySystemComponent* InASC, int32 ApplyLevel) override;
 
 private:
 

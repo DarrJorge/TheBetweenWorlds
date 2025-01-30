@@ -3,8 +3,7 @@
 
 #include "UI/Widgets/TBW_InventoryActivatableWidget.h"
 #include "CommonButtonBase.h"
-#include "GameModes/TBWGameModeBase.h"
-#include "Utils/TBWFunctionLibrary.h"
+#include "Controllers/TBWPlayerController.h"
 
 
 void UTBW_InventoryActivatableWidget::NativeOnDeactivated()
@@ -13,9 +12,9 @@ void UTBW_InventoryActivatableWidget::NativeOnDeactivated()
 
 	if (GetWorld())
 	{
-		if (auto* GameMode = Cast<ATBWGameModeBase>(GetWorld()->GetAuthGameMode()))
+		if (auto* PC = Cast<ATBWPlayerController>(GetWorld()->GetFirstPlayerController()))
 		{
-			GameMode->SetGameState(ETBWGameState::GameProgress);
+			PC->OnOpenInventory();
 		}
 	}
 }

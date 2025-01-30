@@ -7,6 +7,7 @@
 #include "DataAsset_StartUpDataBase.generated.h"
 
 
+class UGameplayAbility;
 class UTBWAbilitySystemComponent;
 class UGameplayEffect;
 class UTBWGameplayAbility;
@@ -17,19 +18,18 @@ class TBW_API UDataAsset_StartUpDataBase : public UDataAsset
 	GENERATED_BODY()
 
 public:
-
-	virtual void GiveToAbilitySystemComponent(UTBWAbilitySystemComponent* InASC, int32 ApplyLevel = 1);
+	
+	virtual void InitStartupAbilities(UTBWAbilitySystemComponent* InASC, int32 ApplyLevel = 1);
 
 protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="StartUpData|Abilities")
-	TArray<TSubclassOf<UTBWGameplayAbility>> ActivateOnGivenAbilities;
+	TArray<TSubclassOf<UGameplayAbility>> ActivateOnGivenAbilities;
 
 	UPROPERTY(EditDefaultsOnly, Category="StartUpData|Abilities")
-	TArray<TSubclassOf<UTBWGameplayAbility>> ReactiveAbilities;
+	TArray<TSubclassOf<UGameplayAbility>> ReactiveAbilities;
 
 	UPROPERTY(EditDefaultsOnly, Category="StartUpData|Abilities")
 	TArray<TSubclassOf<UGameplayEffect>> StartUpGameplayEffects;
-
-	void GrantAbilities(const TArray<TSubclassOf<UTBWGameplayAbility>>& InAbilitiesToGive, UTBWAbilitySystemComponent* InASC, int32 ApplyLevel = 1);
+	
 };

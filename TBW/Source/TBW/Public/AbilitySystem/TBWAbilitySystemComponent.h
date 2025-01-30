@@ -17,6 +17,11 @@ public:
 
 	void OnAbilityInputPressed(const FGameplayTag& InputTag);
 	void OnAbilityInputReleased(const FGameplayTag& InputTag);
+
+	void GrantAbilities(const TArray<TSubclassOf<UGameplayAbility>> InGrantAbilities, int32 ApplyLevel = 1);
+	void GrantGameplayEffects(const TArray<TSubclassOf<UGameplayEffect>> InGrantEffects, int32 ApplyLevel = 1);
+
+	void GrantAbilityWithTag(TSubclassOf<UGameplayAbility> InAbility, const FGameplayTag& InTag, int32 ApplyLevel = 1);
 	
 	UFUNCTION(BlueprintCallable, Category="TBW|AbilitySystem", meta=(InLevel="1"))
 	void GrantCharacterWeaponAbilities(const TArray<FHeroAbilitySet>& DefaultWeaponAbilities, int32 InLevel,

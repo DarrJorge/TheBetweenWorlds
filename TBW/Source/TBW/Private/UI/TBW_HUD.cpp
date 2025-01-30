@@ -2,7 +2,7 @@
 
 
 #include "UI/TBW_HUD.h"
-#include "GameModes/TBWGameModeBase.h"
+#include "Controllers/TBWPlayerController.h"
 #include "UI/Widgets/TBW_MainLayoutWidget.h"
 
 void ATBW_HUD::BeginPlay()
@@ -10,7 +10,6 @@ void ATBW_HUD::BeginPlay()
 	Super::BeginPlay();
 
 	check(GetWorld());
-
 	if (GetNetMode() != NM_DedicatedServer)
 	{
 		MainLayoutHUD = CreateWidget<UTBW_MainLayoutWidget>(GetWorld(), MainLayoutHUDClass);
@@ -19,13 +18,13 @@ void ATBW_HUD::BeginPlay()
 		MainLayoutHUD->PushDefaultHUD();
 	}
 
-	if (const auto GameMode = Cast<ATBWGameModeBase>(GetWorld()->GetAuthGameMode()))
+	if (const auto PC = Cast<ATBWPlayerController>(GetWorld()->GetFirstPlayerController()))
 	{
-		GameMode->GameStateChanged.AddUObject(this, &ThisClass::OnGameStateChanged);
+		PC->OnGameStateChanged.AddDynamic(this, &ThisClass::OnGameStateChanged);
 	}
 }
 
-void ATBW_HUD::OnGameStateChanged(ETBWGameState InGameState) const
+void ATBW_HUD::OnGameStateChanged(ETBWGameState InGameState)
 {
 	MainLayoutHUD->SelectWidget(InGameState);
 }
